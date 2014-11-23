@@ -1,0 +1,14 @@
+PKG_NAME = lpty
+CFLAGS += -O2 -fPIC
+LDFLAGS += -shared
+
+all: $(PKG_NAME).so
+
+$(PKG_NAME).so: $(PKG_NAME).o
+	$(CC) $(LDFLAGS) $< -o $@
+
+$(PKG_NAME).o: $(PKG_NAME).c expectsrc.inc
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.inc: %.lua
+	lua mkinc.lua `basename $@ .inc`
